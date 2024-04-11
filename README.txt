@@ -169,3 +169,42 @@ form = TaskForm(request.POST)
 paso 16: Hacer una funcion para listar las tareas osea lo que hice esque cree
 la interfaz en el archivo tasks.html  use un for para recorrer las tareas hechas por el
 usuario en la base de datos
+
+paso 17: lo que hice fue crear un archivo html llamado task_detail.html
+que en este archivo simplemente agregamos un h1 con el nombre del archivo
+
+en urls.py agregamos lo siguiente
+path("tasks/<int:task_id>", views.task_detail, name="task_detail"),
+en el primer argumento de "tasks/<int:task_id>" despues del / le decimos al
+navegador que va a ser un id que lee directamente de la base de datos
+
+en views agregamos lo siguiente
+def task_detail(request, task_id):
+    task = get_object_or_404(Task, pk=task_id)
+    return render(request, 'task_detail.html', {'task': task})
+
+   en la variable task se guarda un id, que despues se le pasa al archivo tasks.html
+   para que renderize las tareas
+
+   en tasks.html envolvi dentro del li un
+    <a href="{% url 'task_detail' task.id %}">
+    y pegue lo que ya estaba dentro del li
+    </a> 
+
+  esto hace que se renderizen las tareas creadas en la pestaña tasks  
+
+paso 18: modificar una tarea
+para esto ocupo el id sacado directamente de la base de datos
+tambien valido el usuario que hace la peticion para que solo salgan las tareas
+uso el mismo modelo de formulario anteriormente
+donde ya se ve una tarea hecha, ya que es la tarea que voy a modificar
+
+tambien modifique el task_detail.html ya que ahí es donde yo renderizo todo
+
+paso 19: borrar una tarea 
+primero pasamos a traer la tarea atraves de la base de datos
+Luego verificamos si el metodo es POST
+uso el metodo delete para borrar la tarea
+y redirecciono a tasks
+
+

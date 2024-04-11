@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Tasks</h1>
+<h1>Tasks Pending</h1>
 
 <ul>
     {% for task in tasks %}
     <li>
+     <a href="{% url 'task_detail' task.id %}">
         {% if task.important %}
         <strong>{{ task.title }}</strong>
         {% else %}
@@ -14,6 +15,7 @@
         <p>{{ task.important }}</p>
         <p>{{ task.user.username }}</p>
 
+     </a>
     </li>
     {% endfor %}
     {% endblock %}
