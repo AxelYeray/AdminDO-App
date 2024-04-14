@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>clientes pendientes</h1>
+
+<ul>
+    {% for cliente in cliente %}
+    <li>
+        <a href="{% url 'clientes_detail' clientes.id %}">
+
+            <strong>{{ clientes.nombre }}</strong>
+            <p>{{ clientes.folio }}</p>
+            <p>{{ task.user.username }}</p>
+
+
+            <p>{{clientes.datecompleted|date:'M j Y:i'}}</p>
+        </a>
+    </li>
+    {% endfor %}
+    {% endblock %}
