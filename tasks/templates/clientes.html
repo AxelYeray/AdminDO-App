@@ -3,13 +3,13 @@
 <h1>clientes pendientes</h1>
 
 <ul>
-    {% for cliente in cliente %}
+    {% for cliente in clientes %}
     <li>
-        <a href="{% url 'clientes_detail' clientes.id %}">
+        <a href="{% url 'cliente_detail' cliente.id %}">
 
             <strong>{{ clientes.nombre }}</strong>
             <p>{{ clientes.folio }}</p>
-            <p>{{ task.user.username }}</p>
+            <p>{{ cliente.user.username }}</p>
 
 
             <p>{{clientes.datecompleted|date:'M j Y:i'}}</p>

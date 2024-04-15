@@ -119,7 +119,7 @@ def delete_task(request, task_id):
 
 def signout(request):
     logout(request)
-    return redirect("home")
+    return redirect("signin")
 
 
 def signin(request):
