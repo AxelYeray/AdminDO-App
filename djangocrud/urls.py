@@ -25,4 +25,5 @@ urlpatterns = [
     path(
         "clientes/<int:cliente_id>/delete", views.delete_cliente, name="delete_cliente"
     ),
+    path("clientes/completed", views.clientes_completed, name="clientes_completed")
 ]

@@ -55,7 +55,8 @@ def tasks(request):
 
 @login_required
 def tasks_completed(request):
-    tasks = Task.objects.filter(user=request.user, datecompleted__isnull=False).order_by
+    tasks = Task.objects.filter(user=request.user, 
+        datecompleted__isnull=False).order_by
     ("-datecompleted")
     return render(request, "tasks.html", {"tasks": tasks})
 
@@ -150,6 +151,14 @@ def clientes(request):
     clientes = Cliente.objects.filter(user=request.user, datecompleted__isnull=True)
     return render(request, "clientes.html", {"clientes": clientes})
 
+@login_required
+def clientes_completed(request):
+    clientes = Cliente.objects.filter(
+        user=request.user, datecompleted__isnull=False
+    ).order_by
+    ("-datecompleted")
+    return render(request, "clientes.html", {"clientes": clientes})
+
 
 @login_required
 def create_cliente(request):
@@ -213,10 +222,3 @@ def complete_cliente(request):
         return redirect("clientes")
 
 
-@login_required
-def clientes_completed(request):
-    clientes = Cliente.objects.filter(
-        user=request.user, datecompleted__isnull=False
-    ).order_by
-    ("-datecompleted")
-    return render(request, "clientes.html", {"clientes": clientes})
