@@ -1,14 +1,54 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Create cliente</h1>
+<div class="container">
+    <h1>Create Cliente</h1>
 
-<form action="" method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button>
-        Enviar
-    </button>
-</form>
+    <form action="" method="POST" class="needs-validation" novalidate>
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.nombre.label_tag }}
+            {{ form.nombre }}
+            <div class="invalid-feedback">
+                Por favor ingrese un nombre.
+            </div>
+        </div>
+        <div class="form-group">
+            {{ form.folio.label_tag }}
+            {{ form.folio }}
+            <div class="invalid-feedback">
+                Por favor ingrese un folio válido.
+            </div>
+        </div>
+        <div class="form-group">
+            {{ form.user.label_tag }}
+            {{ form.user }}
+            <div class="invalid-feedback">
+                Por favor seleccione un usuario.
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
+</div>
 
+<script>
+    // Agrega validación de Bootstrap al formulario
+    (function () {
+        'use strict';
+        window.addEventListener('load', function () {
+            // Obtener todos los formularios que queremos aplicar estilos de validación de Bootstrap a
+            var forms = document.getElementsByClassName('needs-validation');
+            // Recorrer cada formulario y evitar el envío si tiene campos inválidos
+            var validation = Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+</script>
 {% endblock %}

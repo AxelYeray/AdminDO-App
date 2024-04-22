@@ -1,8 +1,21 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Home</h1>
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
-    Temporibus harum accusantium excepturi mollitia, blanditiis
-    quas consequuntur nisi facere iusto labore non cumque obcaecati
-    beatae odio reprehenderit sapiente optio. Similique, numquam.</p>
+
+<main class="container py-5">
+    <section class="card card-body">
+        <h1 class="display-1 text-center">AdminDo</h1>
+    <p>AdminDo es una aplicación de administracion de tareas y clientes</p>
+    </section>
+    
+    <div class="text-center">
+        <a class="btn btn-primary" href="/signin">
+            Signin
+        </a>
+        <a class="btn btn-primary" href="/register">
+            Register
+        </a>
+    </div>
+
+</main>
+
 {% endblock %}

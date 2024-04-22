@@ -25,6 +25,7 @@ def register(request):
     if request.method == "GET":
         return render(request, "register.html", {"form": UserCreationForm})
     else:
+        
         if request.POST["password1"] == request.POST["password2"]:
             try:
                 user = User.objects.create_user(
@@ -204,6 +205,15 @@ def cliente_detail(request, cliente_id):
                 },
             )
 
+@login_required
+def complete_cliente(request, cliente_id):
+    cliente = get_object_or_404(Cliente, pk=cliente_id, user=request.user)
+    if request.method == "POST":
+        cliente.datecompleted = timezone.now()
+        cliente.save()
+        return redirect("clientes")
+
+
 
 @login_required
 def delete_cliente(request, cliente_id):
@@ -213,12 +223,5 @@ def delete_cliente(request, cliente_id):
         return redirect("clientes")
 
 
-@login_required
-def complete_cliente(request):
-    cliente = get_object_or_404(Cliente, pk=cliente_id, user=request.user)
-    if request.method == "POST":
-        cliente.datecompleted = timezone.now()
-        cliente.save()
-        return redirect("clientes")
 
 

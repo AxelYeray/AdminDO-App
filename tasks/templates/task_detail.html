@@ -1,32 +1,50 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="container">
+    <h1>{{ task.title }}</h1>
 
-    <h1>{{task.title}}</h1>
+    {% if error %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+    {% endif %}
 
-    {{error}}
-
-    <form method="POST">
+    <form method="POST" class="needs-validation" novalidate>
         {% csrf_token %}
-        {{form.as_p}}
-        <button>
-            Update
-        </button>
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Update</button>
     </form>
 
     <form action="{% url 'complete_task' task.id %}" method="POST">
         {% csrf_token %}
-        <button>
-            Complete
-        </button>
+        <button type="submit" class="btn btn-success">Complete</button>
     </form>
 
-    <form action="{% url 'delete_task' task.id %}" method="POST">
+    <form action="{% url 'delete_task' task.id %}" method="POST" onsubmit="return confirm('Are you sure you want to delete this task?');">
         {% csrf_token %}
-        <button>
-            Delete
-        </button>
+        <button type="submit" class="btn btn-danger">Delete</button>
     </form>
+</div>
 
-
+<script>
+    // Agrega validación de Bootstrap al formulario
+    (function () {
+        'use strict';
+        window.addEventListener('load', function () {
+            // Obtener todos los formularios que queremos aplicar estilos de validación de Bootstrap a
+            var forms = document.getElementsByClassName('needs-validation');
+            // Recorrer cada formulario y evitar el envío si tiene campos inválidos
+            var validation = Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+</script>
 {% endblock %}
