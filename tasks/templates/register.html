@@ -5,8 +5,8 @@
 <main class="container">
     <div class="row">
         <div class="col-md-4 offset-md-4">
-            <form action="/register/" method="POST" class="card card-body text-center">
-                <h1>Register</h1>
+            <form action="/register/" method="POST" class="card card-body">
+                <h1 class="text-center">Register</h1>
                 {{error}}
                 {% csrf_token %}
 
@@ -18,7 +18,7 @@
                 
                 <div class="mb-3">
                     <label for="password1">password</label>
-                    <input type="password" name="password" id="password" class="form-control"
+                    <input type="password" name="password1" id="password1" class="form-control"
                     placeholder="Write your password">
                 </div>
                 
@@ -28,10 +28,9 @@
                     placeholder="Confirm your password">
                 </div>
 
-
-
-                
-                <button>Enviar</button>
+                <button class="btn btn-primary">
+                    Enviar
+                </button>
             </form>
         </div>
     </div>

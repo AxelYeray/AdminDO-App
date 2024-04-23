@@ -29,22 +29,5 @@
 
 <script>
     // Agrega validación de Bootstrap al formulario
-    (function () {
-        'use strict';
-        window.addEventListener('load', function () {
-            // Obtener todos los formularios que queremos aplicar estilos de validación de Bootstrap a
-            var forms = document.getElementsByClassName('needs-validation');
-            // Recorrer cada formulario y evitar el envío si tiene campos inválidos
-            var validation = Array.prototype.filter.call(forms, function (form) {
-                form.addEventListener('submit', function (event) {
-                    if (form.checkValidity() === false) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-                    form.classList.add('was-validated');
-                }, false);
-            });
-        }, false);
-    })();
-</script>
+
 {% endblock %}
