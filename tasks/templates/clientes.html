@@ -8,21 +8,22 @@
 
     <ul class="list-group">
         {% for cliente in clientes %}
-        <li class="list-group-item">
-            <a href="{% url 'cliente_detail' cliente.id %}">
+            <a class="list-group-item" href="{% url 'cliente_detail' cliente.id %}">
+             <header class="d-flex justify-content-between">  
                 {% if task.important %}
-                <strong>{{ cliente.nombre }}</strong>
+                <h1 class="fw-bold text-success">{{ cliente.nombre }}</h1>
                 {% else %}
-                {{ cliente.nombre }}
+                <h1 class="fw-bold">{{ cliente.nombre }}</h1>
                 {% endif %}
                 <p>{{ cliente.folio }}</p>
                 <p>{{ cliente.user.username }}</p>
+             </header>
                 <p>{{ cliente.datecompleted|date:'M j Y:i' }}</p>
             </a>
-        </li>
+        
         {% endfor %}
         </ul>
-        </div>
+       
      </div>
     </div>
 </main>    

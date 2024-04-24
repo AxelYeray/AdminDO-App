@@ -12,29 +12,29 @@
 
             {% if user.is_authenticated %}
             <li class="nav-item">
-                <a href="/tasks" class="nav-link">Tasks Pending</a>
+                <a href="/tasks" class="nav-link">Ventas Pendientes</a>
             </li>
             <li class="nav-item">
-                <a href="/tasks/completed" class="nav-link">Tasks completed</a>
+                <a href="/tasks/completed" class="nav-link">Ventas completadas</a>
             </li>
             <li class="nav-item">
-                <a href="/tasks/create" class="nav-link">Create Tasks</a>
+                <a href="/tasks/create" class="nav-link">Crear venta</a>
             </li>
             <li class="nav-item">
                 <a href="/clientes" class="nav-link">Clientes</a>
             </li>
             <li class="nav-item">
-                <a href="/clientes/create" class="nav-link">Create Clientes</a>
+                <a href="/clientes/create" class="nav-link">Crear Clientes</a>
             </li>
             <li class="nav-item">
-                <a href="/clientes/completed" class="nav-link">Clientes completed</a>
+                <a href="/clientes/completed" class="nav-link">Clientes completados</a>
             </li>
             <li class="nav-item">
                 <a href="logout/" class="nav-link">Logout</a>
             </li>
             {% else %}
             <li class="nav-item">
-                <a href="signin/" class="nav-link">signin</a>
+                <a href="signin/" class="nav-link">Log In</a>
             </li>
             <li class="nav-item">
                 <a href="/register/" class="nav-link">Register</a>
