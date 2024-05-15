@@ -15,10 +15,10 @@ urlpatterns = [
     path("logout/", views.logout_view, name="logout"),
     path("login/", views.login_view, name="login"),
     path("clientes/", views.clientes, name="clientes"),
-    path("clientes/create/", views.create_cliente, name="create_cliente"),
-    path("clientes/<int:cliente_id>/", views.cliente_detail, name="cliente_detail"),
+    path("clientes/create/", views.alta_cliente, name="create_cliente"),
+    path("clientes/<int:cliente_id>/", views.editar_cliente, name="cliente_detail"),
     path("clientes/<int:cliente_id>/complete/", views.complete_cliente, name="complete_cliente"),
-    path("clientes/<int:cliente_id>/delete/", views.delete_cliente, name="delete_cliente"),
-    path("clientes/completed/", views.clientes_completed, name="clientes_completed"),
+    path("clientes/<int:cliente_id>/delete/", views.baja_cliente, name="delete_cliente"),
+    path("clientes/completed/", views.buscar_cliente, name="clientes_completed"),
 ]
  

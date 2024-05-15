@@ -137,14 +137,14 @@ def clientes(request):
     return render(request, "clientes.html", {"clientes": clientes})
 
 @login_required
-def clientes_completed(request):
+def buscar_cliente(request):
     clientes = Cliente.objects.filter(
         user=request.user, datecompleted__isnull=False
     ).order_by("-datecompleted")
     return render(request, "clientes.html", {"clientes": clientes})
 
 @login_required
-def create_cliente(request):
+def alta_cliente(request):
     if request.method == "GET":
         return render(request, "create_cliente.html", {"form": ClienteForm()})
     else:
@@ -162,7 +162,7 @@ def create_cliente(request):
             )
 
 @login_required
-def cliente_detail(request, cliente_id):
+def editar_cliente(request, cliente_id):
     cliente = get_object_or_404(Cliente, pk=cliente_id, user=request.user)
     if request.method == "GET":
         form = ClienteForm(instance=cliente)
@@ -194,7 +194,7 @@ def complete_cliente(request, cliente_id):
         return redirect("clientes")
 
 @login_required
-def delete_cliente(request, cliente_id):
+def baja_cliente(request, cliente_id):
     cliente = get_object_or_404(Cliente, pk=cliente_id, user=request.user)
     if request.method == "POST":
         cliente.delete()
