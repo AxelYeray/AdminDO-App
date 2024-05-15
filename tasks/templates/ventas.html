@@ -7,20 +7,20 @@
             <h1 class="text-center display-3 py-5">Ventas</h1>
 
                 <ul class="list-group">
-                    {% for task in tasks %}
-                    <a class="list-group-item" href="{% url 'task_detail' task.id %}">
+                    {% for venta in ventas %}
+                    <a class="list-group-item" href="{% url 'editar_venta' venta.id %}">
                         <header class="d-flex justify-content-between">
-                            {% if task.important %}
-                            <h1 class="fw-bold text-success">{{ task.nombre }}</h1>
+                            {% if venta.important %}
+                            <h1 class="fw-bold text-success">{{ venta.nombre }}</h1>
                             {% else %}
-                            <h1 class="fw-bold">{{ task.nombre }}</h1>
+                            <h1 class="fw-bold">{{ venta.nombre }}</h1>
                             {% endif %}
-                            <p>{{ task.user.username }}</p>
-                            <p>id: {{ task.id }}</p>
+                            <p>{{ venta.user.username }}</p>
+                            <p>id: {{ venta.id }}</p>
                         </header>
-                            <p>{{ task.descripcion }}</p>
+                            <p>{{ venta.descripcion }}</p>
                             
-                            <p>{{ task.datecompleted|date:'M j Y:i' }}</p>
+                            <p>{{ venta.datecompleted|date:'M j Y:i' }}</p>
                         </a>
                     </a>
                     {% endfor %}

@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 
 # Create your models here.
-class Task(models.Model):
+class Venta(models.Model):
     nombre = models.CharField(max_length=100)
     descripcion = models.TextField(blank=True)
     total = models.DecimalField(max_digits=10, decimal_places=2)

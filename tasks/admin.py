@@ -1,11 +1,11 @@
 from django.contrib import admin
-from .models import Task, Cliente
+from .models import Venta, Cliente
 
 
-class TaskAdmin(admin.ModelAdmin):
+class VentaAdmin(admin.ModelAdmin):
     readonly_fields = ("created",)
 
 
 # Register your models here.
-admin.site.register(Task, TaskAdmin)
+admin.site.register(Venta, VentaAdmin)
 admin.site.register(Cliente)

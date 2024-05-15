@@ -4,8 +4,8 @@
 <main class="container">
     <div class="row">
         <div class="text-secondary" class="col-md-4 offset-md-4">
-                <h1>{{ task.nombre }}</h1>
-                <p>{{ task.id }}</p>
+                <h1>{{ venta.nombre }}</h1>
+                <p>{{ venta.id }}</p>
     
 
                 {{error}}
@@ -21,7 +21,7 @@
                   </form>
 
                   <div class="mt-5 d-flex">
-                  <form action="{% url 'complete_task' task.id %}" method="POST">
+                  <form action="{% url 'complete_ventas' venta.id %}" method="POST">
 
                     {% csrf_token %}
                     <button class="btn btn-secondary">
@@ -29,7 +29,7 @@
                     </button>
                   </form>
                   
-                  <form action="{% url 'delete_task' task.id %}" method="POST">
+                  <form action="{% url 'delete_ventas' venta.id %}" method="POST">
                     {% csrf_token %}
                     <button class="btn btn-danger">
                       Baja venta

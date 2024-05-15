@@ -1,10 +1,10 @@
 from django import forms
-from .models import Task
+from .models import Venta
 
 
-class TaskForm(forms.ModelForm):
+class VentaForm(forms.ModelForm):
     class Meta:
-        model = Task
+        model = Venta
         fields = ["nombre", "descripcion", "importante", "total"]
         widgets = {
             "nombre": forms.TextInput(

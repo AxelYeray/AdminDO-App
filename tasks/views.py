@@ -4,28 +4,24 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
-from .forms import TaskForm
+from .forms import VentaForm
 from .forms2 import ClienteForm
-from .models import Task
-from .models import Cliente
+from .models import Venta, Cliente
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 
-
-# Create your views here.
-def Hello(request):
+# Crear tus vistas aquí.
+def hello(request):
     return HttpResponse("Hello World!")
 
 @login_required
 def home(request):
     return render(request, "home.html")
 
-
 def register(request):
     if request.method == "GET":
-        return render(request, "register.html", {"form": UserCreationForm})
+        return render(request, "register.html", {"form": UserCreationForm()})
     else:
-        
         if request.POST["password1"] == request.POST["password2"]:
             try:
                 user = User.objects.create_user(
@@ -34,99 +30,88 @@ def register(request):
                 )
                 user.save()
                 login(request, user)
-                return redirect("tasks")
+                return redirect("home")
             except IntegrityError:
                 return render(
                     request,
                     "register.html",
-                    {"form": UserCreationForm, "error": "El usuario ya existe"},
+                    {"form": UserCreationForm(), "error": "El usuario ya existe"},
                 )
         return render(
             request,
             "register.html",
-            {"form": UserCreationForm, "error": "Las contraseñas no coinciden"},
+            {"form": UserCreationForm(), "error": "Las contraseñas no coinciden"},
         )
 
+@login_required
+def ventas(request):
+    ventas = Venta.objects.filter(user=request.user, datecompleted__isnull=True)
+    return render(request, "ventas.html", {"ventas": ventas})
 
 @login_required
-def tasks(request):
-    tasks = Task.objects.filter(user=request.user, datecompleted__isnull=True)
-    return render(request, "tasks.html", {"tasks": tasks})
-
-
-@login_required
-def tasks_completed(request):
-    tasks = Task.objects.filter(user=request.user, 
-        datecompleted__isnull=False).order_by
-    ("-datecompleted")
-    return render(request, "tasks.html", {"tasks": tasks})
-
+def buscar_venta(request):
+    ventas = Venta.objects.filter(user=request.user, datecompleted__isnull=False).order_by("-datecompleted")
+    return render(request, "ventas.html", {"ventas": ventas})
 
 @login_required
-def create_task(request):
+def alta_venta(request):
     if request.method == "GET":
-        return render(request, "create_task.html", {"form": TaskForm})
+        return render(request, "create_task.html", {"form": VentaForm()})
     else:
         try:
-            form = TaskForm(request.POST)
+            form = VentaForm(request.POST)
             new_task = form.save(commit=False)
             new_task.user = request.user
             new_task.save()
-            return redirect("tasks")
+            return redirect("ventas")
         except ValueError:
             return render(
                 request,
                 "create_task.html",
-                {"form": TaskForm, "error": "Los datos son inválidos"},
+                {"form": VentaForm(), "error": "Los datos son inválidos"},
             )
 
-
 @login_required
-def task_detail(request, task_id):
+def editar_venta(request, venta_id):
+    venta = get_object_or_404(Venta, pk=venta_id, user=request.user)
     if request.method == "GET":
-        task = get_object_or_404(Task, pk=task_id, user=request.user)
-        form = TaskForm(instance=task)
-        return render(request, "task_detail.html", {"task": task, "form": form})
+        form = VentaForm(instance=venta)
+        return render(request, "task_detail.html", {"venta": venta, "form": form})
     else:
         try:
-            task = get_object_or_404(Task, pk=task_id, user=request.user)
-            form = TaskForm(request.POST, instance=task)
+            form = VentaForm(request.POST, instance=venta)
             form.save()
-            return redirect("tasks")
+            return redirect("ventas")
         except ValueError:
             return render(
                 request,
                 "task_detail.html",
-                {"task": task, "form": form, "error": "Error actualizando tarea"},
+                {"venta": venta, "form": form, "error": "Error actualizando tarea"},
             )
 
+@login_required
+def complete_ventas(request, venta_id):
+    venta = get_object_or_404(Venta, pk=venta_id, user=request.user)
+    if request.method == "POST":
+        venta.datecompleted = timezone.now()
+        venta.save()
+        return redirect("ventas")
 
 @login_required
-def complete_task(request, task_id):
-    task = get_object_or_404(Task, pk=task_id, user=request.user)
+def baja_venta(request, venta_id):
+    venta = get_object_or_404(Venta, pk=venta_id, user=request.user)
     if request.method == "POST":
-        task.datecompleted = timezone.now()
-        task.save()
-        return redirect("tasks")
+        venta.delete()
+        return redirect("ventas")
 
-
-@login_required
-def delete_task(request, task_id):
-    task = get_object_or_404(Task, pk=task_id, user=request.user)
-    if request.method == "POST":
-        task.delete()
-        return redirect("tasks")
-
-
-def signout(request):
+def logout_view(request):
     logout(request)
-    return redirect("signin")
+    return redirect("login")
 
 
-def signin(request):
+def login_view(request):
     if request.method == "GET":
-        return render(request, "signin.html", {"form": AuthenticationForm})
-
+        return render(request, "login.html", {"form": AuthenticationForm()})
     else:
         user = authenticate(
             request,
@@ -136,16 +121,15 @@ def signin(request):
         if user is None:
             return render(
                 request,
-                "signin.html",
+                "login.html",
                 {
-                    "form": AuthenticationForm,
+                    "form": AuthenticationForm(),
                     "error": "Usuario y/o contraseña incorrectos",
                 },
             )
         else:
             login(request, user)
-            return redirect("tasks")
-
+            return redirect("home")
 
 @login_required
 def clientes(request):
@@ -156,15 +140,13 @@ def clientes(request):
 def clientes_completed(request):
     clientes = Cliente.objects.filter(
         user=request.user, datecompleted__isnull=False
-    ).order_by
-    ("-datecompleted")
+    ).order_by("-datecompleted")
     return render(request, "clientes.html", {"clientes": clientes})
-
 
 @login_required
 def create_cliente(request):
     if request.method == "GET":
-        return render(request, "create_cliente.html", {"form": ClienteForm})
+        return render(request, "create_cliente.html", {"form": ClienteForm()})
     else:
         try:
             form = ClienteForm(request.POST)
@@ -176,21 +158,19 @@ def create_cliente(request):
             return render(
                 request,
                 "create_cliente.html",
-                {"form": ClienteForm, "error": "Los datos son inválidos"},
+                {"form": ClienteForm(), "error": "Los datos son inválidos"},
             )
-
 
 @login_required
 def cliente_detail(request, cliente_id):
+    cliente = get_object_or_404(Cliente, pk=cliente_id, user=request.user)
     if request.method == "GET":
-        cliente = get_object_or_404(Cliente, pk=cliente_id, user=request.user)
         form = ClienteForm(instance=cliente)
         return render(
             request, "cliente_detail.html", {"cliente": cliente, "form": form}
         )
     else:
         try:
-            cliente = get_object_or_404(Cliente, pk=cliente_id, user=request.user)
             form = ClienteForm(request.POST, instance=cliente)
             form.save()
             return redirect("clientes")
@@ -213,15 +193,11 @@ def complete_cliente(request, cliente_id):
         cliente.save()
         return redirect("clientes")
 
-
-
 @login_required
 def delete_cliente(request, cliente_id):
     cliente = get_object_or_404(Cliente, pk=cliente_id, user=request.user)
     if request.method == "POST":
         cliente.delete()
         return redirect("clientes")
-
-
 
 
