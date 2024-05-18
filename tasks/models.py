@@ -25,7 +25,7 @@ class Cliente(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     datecompleted = models.DateTimeField(null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    important = models.BooleanField(default=False)
+    importante = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.nombre} {self.apellido} - by {self.user.username}"

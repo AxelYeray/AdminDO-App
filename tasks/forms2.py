@@ -11,7 +11,8 @@ class ClienteForm(forms.ModelForm):
             "calle",
             "colonia",
             "celular",
-            "important",
+            "importante",
+            "id",
         ]
         widgets = {
             "nombre": forms.TextInput(
@@ -29,7 +30,7 @@ class ClienteForm(forms.ModelForm):
             "celular": forms.TextInput(
                 attrs={"class": "form-control", "placeholder": "Celular"}
             ),
-            "important": forms.CheckboxInput(
+            "importante": forms.CheckboxInput(
                 attrs={"class": "form-check-input md-auto"}
             ),
         }
